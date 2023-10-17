@@ -2,12 +2,6 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-/**
- * _printf - Custom printf function with limited conversion specifiers.
- * @format: Format string containing conversion specifiers.
- *
- * Return: Number of characters printed (excluding the null byte).
- */
 int _printf(const char *format, ...)
 {
     int printed_chars = 0;
@@ -20,13 +14,16 @@ int _printf(const char *format, ...)
 
     while (*format)
     {
+        char c;
+
         if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's' || *(format + 1) == '%'))
         {
             format++;
             switch (*format)
             {
                 case 'c':
-                    printed_chars += write(1, &va_arg(args, int), 1);
+                    c = va_arg(args, int);
+                    printed_chars += write(1, &c, 1);
                     break;
                 case 's':
                 {
@@ -53,3 +50,4 @@ int _printf(const char *format, ...)
     va_end(args);
     return (printed_chars);
 }
+
